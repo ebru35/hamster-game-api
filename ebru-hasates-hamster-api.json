@@ -1,0 +1,169 @@
+{
+  "name": "ebru-hasates-hamster-api",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "66845e3b-feb9-40f1-bc83-d91eca5aea13",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8b3453b0-32be-4f0c-8adf-d366bf0402d2",
+      "name": "Webhook",
+      "webhookId": "66845e3b-feb9-40f1-bc83-d91eca5aea13"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "1keDePG5vmv63hJX",
+          "mode": "list",
+          "cachedResultName": "hamster_game",
+          "cachedResultUrl": "/projects/urAv4lDBPC9iUqY3/datatables/1keDePG5vmv63hJX"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_email": "={{ $json.body.user_email }}",
+            "event_name": "={{ $json.body.event_name }}",
+            "timestamp": "={{ $json.body.timestamp }}",
+            "click_power": "={{ $json.body.payload.click_power }}",
+            "coins": "={{ $json.body.payload.coins }}",
+            "total_clicks": "={{ $json.body.payload.total_clicks }}"
+          },
+          "matchingColumns": [
+            "user_email"
+          ],
+          "schema": [
+            {
+              "id": "user_email",
+              "displayName": "user_email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "event_name",
+              "displayName": "event_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "click_power",
+              "displayName": "click_power",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "coins",
+              "displayName": "coins",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "total_clicks",
+              "displayName": "total_clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f6b008a1-c9ed-4f1c-ae31-29d531f189dc",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        432,
+        -16
+      ],
+      "id": "fe657272-3276-46b8-8ef3-3395bc85c143",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ab5dd6db-c6d7-4279-b734-1f6b2723678c",
+  "meta": {
+    "instanceId": "548161637e67aff2c662dfb8e91096ff1496b4312056d452c42c7589abd66e88"
+  },
+  "id": "64mNIfAdPYf7W8OD",
+  "tags": []
+}
