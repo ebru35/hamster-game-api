@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+from sqlalchemy import text
 from app.database import engine, Base
 from app.models import Event
 
@@ -10,12 +11,21 @@ logger = logging.getLogger(__name__)
 
 
 async def create_tables():
-    """Create all database tables."""
+    """Create all database tables and add missing columns if needed."""
     try:
         logger.info("Creating database tables...")
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        logger.info("✓ Database tables created successfully!")
+            await conn.execute(
+                text(
+                    """
+                    ALTER TABLE events
+                    ADD COLUMN IF NOT EXISTS processing BOOLEAN DEFAULT FALSE,
+                    ADD COLUMN IF NOT EXISTS error_message TEXT
+                    """
+                )
+            )
+        logger.info("✓ Database tables created and schema verified successfully!")
         return True
     except Exception as e:
         logger.error(f"✗ Failed to create tables: {str(e)}")

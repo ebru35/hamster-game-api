@@ -85,7 +85,7 @@ pip install -r requirements.txt
 2. **Create and update `.env` file:**
    ```bash
    cp .env.example .env
-   nano .env  # Edit with your actual password
+   nano .env  # Edit with your actual password and Discord webhook URL
    ```
    
    Your `.env` should look like:
@@ -95,6 +95,7 @@ pip install -r requirements.txt
    API_PORT=8000
    DEBUG=False
    WEBHOOK_SECRET=optional_secret_key_for_auth
+   DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/your-webhook-id/your-webhook-token
    ```
 
 3. **Create database tables:**

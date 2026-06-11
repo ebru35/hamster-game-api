@@ -23,6 +23,14 @@ async def handle_hamster_clicked(event: dict) -> None:
         f"Power: {click_power} | Total Clicks: {total_clicks} | Coins: {coins}"
     )
     
-    # TODO: Send to Discord webhook
-    # TODO: Update leaderboard
-    # TODO: Check achievements
+    from app.notifications import send_discord_message
+
+    message = (
+        f"🐹 Hamster Clicked\n"
+        f"User: {user_email}\n"
+        f"Power: {click_power}\n"
+        f"Total Clicks: {total_clicks}\n"
+        f"Coins: {coins}"
+    )
+    
+    await send_discord_message(message)

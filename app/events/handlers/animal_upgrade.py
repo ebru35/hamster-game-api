@@ -24,5 +24,14 @@ async def handle_animal_upgrade(event: dict) -> None:
         f"Animal: {animal_name} | Level: {upgrade_level} | Cost: {upgrade_cost}"
     )
     
-    # TODO: Send to Discord webhook
-    # TODO: Update stats
+    from app.notifications import send_discord_message
+
+    message = (
+        f"⬆️ Animal Upgraded\n"
+        f"User: {user_email}\n"
+        f"Animal: {animal_name}\n"
+        f"Level: {upgrade_level}\n"
+        f"Cost: {upgrade_cost}"
+    )
+    
+    await send_discord_message(message)

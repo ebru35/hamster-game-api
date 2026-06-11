@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     api_port: int = 8000
     debug: bool = False
     webhook_secret: Optional[str] = None
+    discord_webhook_url: Optional[str] = None
     
     class Config:
         env_file = ".env"

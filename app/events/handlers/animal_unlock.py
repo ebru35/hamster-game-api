@@ -23,5 +23,13 @@ async def handle_animal_unlock(event: dict) -> None:
         f"Animal: {animal_name} | Type: {animal_type}"
     )
     
-    # TODO: Send to Discord webhook
-    # TODO: Update player profile
+    from app.notifications import send_discord_message
+
+    message = (
+        f"🦁 Animal Unlocked\n"
+        f"User: {user_email}\n"
+        f"Animal: {animal_name}\n"
+        f"Type: {animal_type}"
+    )
+    
+    await send_discord_message(message)

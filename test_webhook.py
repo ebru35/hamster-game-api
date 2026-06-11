@@ -1,14 +1,18 @@
 """Test script for webhook endpoints - sends sample events to local API."""
 
+import os
 import httpx
 import asyncio
 import json
 from datetime import datetime
 from typing import Optional
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configuration
-API_URL = "http://localhost:8000"
-WEBHOOK_SECRET = None  # Set to your WEBHOOK_SECRET if configured
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")  # Uses .env if available
 
 
 async def send_event(

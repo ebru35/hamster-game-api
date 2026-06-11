@@ -26,6 +26,15 @@ async def handle_game_end(event: dict) -> None:
         f"Time: {playtime_seconds}s"
     )
     
-    # TODO: Send to Discord webhook
-    # TODO: Update leaderboard
-    # TODO: Update statistics
+    from app.notifications import send_discord_message
+
+    message = (
+        f"🏁 Game Ended\n"
+        f"User: {user_email}\n"
+        f"Score: {final_score}\n"
+        f"Clicks: {total_clicks}\n"
+        f"Coins: {total_coins}\n"
+        f"Playtime: {playtime_seconds}s"
+    )
+    
+    await send_discord_message(message)
