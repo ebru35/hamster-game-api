@@ -1,0 +1,299 @@
+{
+  "name": "event-loop",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.event_name }}",
+                    "rightValue": "animal_upgrade",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e69d9236-b6f6-40af-b741-4bd217f2c05a"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "549684b5-95bb-4079-9c42-26f49f546166",
+                    "leftValue": "={{ $json.event_name }}",
+                    "rightValue": "animal_unlock",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9341e837-354e-4ba0-a9da-651a0e074d8e",
+                    "leftValue": "={{ $json.event_name }}",
+                    "rightValue": "game_finished",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "6c219f27-7a9d-4ad1-bc3e-8a90165b44bc",
+      "name": "Switch",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -592,
+        16
+      ],
+      "id": "f541059e-0227-49be-aeee-b58103370381",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH next_event AS (\n    SELECT id\n    FROM events\n  \n    ORDER BY id\n    FOR UPDATE SKIP LOCKED\n    LIMIT 1\n)\nDELETE FROM events\nWHERE id IN (SELECT id FROM next_event)\nRETURNING *;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -384,
+        16
+      ],
+      "id": "de8682ee-4a12-45dc-b7c3-d3f98d927d77",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "NmhAQlqEduSs0Pme",
+          "name": "shared-db"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1514674393320521749",
+          "mode": "list",
+          "cachedResultName": "EbruHasates35607's server",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1514674617950666852",
+          "mode": "list",
+          "cachedResultName": "animal-upgrade",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749/1514674617950666852"
+        },
+        "content": "=name:{{ $json.event_name }}id:{{ $json.id }}{{ $json.payload.toJsonString() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        112,
+        -112
+      ],
+      "id": "bae4056e-718a-4515-89fd-b2e0ae9ed066",
+      "name": "Send a message",
+      "webhookId": "13f6fca0-98c9-4589-ba31-1e56ce6042db",
+      "credentials": {
+        "discordBotApi": {
+          "id": "TmEuenbU11wGRDpV",
+          "name": "Discord Bot account 21"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1514674393320521749",
+          "mode": "list",
+          "cachedResultName": "EbruHasates35607's server",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1514674657234649241",
+          "mode": "list",
+          "cachedResultName": "animal-unlock",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749/1514674657234649241"
+        },
+        "content": "=name:{{ $json.event_name }}id:{{ $json.id }}{{ $json.payload.toJsonString() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        112,
+        32
+      ],
+      "id": "043953cc-b9ef-4cfd-9bbf-7b2f13d856f1",
+      "name": "Send a message1",
+      "webhookId": "13f6fca0-98c9-4589-ba31-1e56ce6042db",
+      "credentials": {
+        "discordBotApi": {
+          "id": "TmEuenbU11wGRDpV",
+          "name": "Discord Bot account 21"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1514674393320521749",
+          "mode": "list",
+          "cachedResultName": "EbruHasates35607's server",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1514674696157925507",
+          "mode": "list",
+          "cachedResultName": "game-finish",
+          "cachedResultUrl": "https://discord.com/channels/1514674393320521749/1514674696157925507"
+        },
+        "content": "=name:{{ $json.event_name }}id:{{ $json.id }}{{ $json.payload.toJsonString() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        160,
+        144
+      ],
+      "id": "50fe98b2-f4a2-4af5-92b6-755028e0d1d5",
+      "name": "Send a message2",
+      "webhookId": "13f6fca0-98c9-4589-ba31-1e56ce6042db",
+      "credentials": {
+        "discordBotApi": {
+          "id": "TmEuenbU11wGRDpV",
+          "name": "Discord Bot account 21"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "eaa4daec-70eb-46b1-a273-165a76c1cda7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "548161637e67aff2c662dfb8e91096ff1496b4312056d452c42c7589abd66e88"
+  },
+  "id": "VwRIlFMKCs6qBJzS",
+  "tags": []
+}
